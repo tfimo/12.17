@@ -1,0 +1,31 @@
+#include<head.h>
+using namespace std;
+void wj_rcd_stxpstn_way1(char const *wj_pstn)
+{
+	FILE * fd=fopen(wj_pstn,"r");
+	int cont=0;
+	char  nn[100];
+	int co=0;
+	while(!feof(fd))
+	{
+		if(fgetc(fd)==0x0d)
+		{
+			nn[co++]=cont;
+			cont=0;
+		}
+		else cont++;
+	}
+	fclose(fd);
+	FILE * fd1=fopen(wj_pstn,"a");
+	int zo=--co;
+	while(1)
+	{
+		cout<<co<<endl;
+		fputc(nn[co++%zo],fd1);
+		if(co==2*zo){
+			fputc(nn[zo],fd1);
+			break;
+		}
+	}
+	fclose(fd1);
+}
